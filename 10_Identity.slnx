@@ -8,6 +8,9 @@
   <Folder Name="/1.Repository/">
     <Project Path="1.Repository/Identity.Repository/Identity.Repository.csproj" />
   </Folder>
+  <Folder Name="/2.WebApiApp/">
+    <Project Path="2.WebApiApp/10_Identity.WebApiApp/10_Identity.WebApiApp.csproj" Id="273c4550-0ef1-46b7-8cd9-aa6f2ef26d00" />
+  </Folder>
   <Folder Name="/3.WebAppRazorPage/">
     <Project Path="3.WebAppRazorPage/Identity.WebAppRazorPage/Identity.WebAppRazorPage.csproj" />
   </Folder>
