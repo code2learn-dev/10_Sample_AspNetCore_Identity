@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/0.Domain/">
+    <Project Path="0.Domain/Identity.Domain/Identity.Domain.csproj" />
+  </Folder>
+  <Folder Name="/1.1.ApplicationService/">
+    <Project Path="1.1.ApplicationService/Identity.ApplicationService/Identity.ApplicationService.csproj" Id="2d637840-9206-42b1-b9e6-69ebc627e4f5" />
+  </Folder>
+  <Folder Name="/1.Repository/">
+    <Project Path="1.Repository/Identity.Repository/Identity.Repository.csproj" />
+  </Folder>
+  <Folder Name="/3.WebAppRazorPage/">
+    <Project Path="3.WebAppRazorPage/Identity.WebAppRazorPage/Identity.WebAppRazorPage.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,55 @@
+﻿@page
+@model Identity.WebAppRazorPage.Areas.Admin.Pages.Courses.AddModel
+@{
+}
+@section styles {
+	<link href="~/lib/course-style.css" rel="stylesheet" />
+}
+<htext>ویرایش دوره آموزشی</htext>
+<form asp-page="Add" method="post" enctype="multipart/form-data">
+	<input asp-for="CourseModel.Image" id="course-image" type="hidden" />
+	<section class="row">
+		<aside class="col-md-4">
+			<section class="image-container">
+				<img src="" />
+				<p class="text-center">تصویری انتخاب نشده است</p>
+			</section>
+			<div class="image-contorols">
+				<button type="button" id="btn-add-image" class="btn btn-primary">انتخاب تصویر</button>
+				<button type="button" id="btn-remove-image" class="btn btn-danger">حذف تصویر</button>
+				<input asp-for="CourseModel.File" type="file" />
+				<span asp-validation-for="CourseModel.Image" class="d-block mt-2 text-danger"></span>
+			</div>
+		</aside>
+		<aside class="col-md-8">
+			<section class="mt-2">
+				<label asp-for="CourseModel.Title"></label>
+				<input asp-for="CourseModel.Title" class="form-control" />
+				<span asp-validation-for="CourseModel.Title" class="text-danger"></span>
+			</section>
+			<section class="mt-2">
+				<label asp-for="CourseModel.Price"></label>
+				<input asp-for="CourseModel.Price" class="form-control" />
+				<span asp-validation-for="CourseModel.Price" class="text-danger"></span>
+			</section>
+			<section class="mt-2">
+				<label asp-for="CourseModel.CategoryId"></label>
+				<select asp-for="CourseModel.CategoryId" asp-items="@Model.CourseModel.CategorySelectListItem" class="form-select">
+					<option selected="selected" disabled="disabled" value="">انتخاب دسته آموزشی</option>
+				</select>
+				<span asp-validation-for="CourseModel.CategoryId" class="text-danger"></span>
+			</section>
+			<section class="mt-2">
+				<label asp-for="CourseModel.TeacherId"></label>
+				<select asp-for="CourseModel.TeacherId" asp-items="@Model.CourseModel.TeacherSelectListItem" class="form-select">
+					<option selected="selected" disabled="disabled" value="">انتخاب مدرس</option>
+				</select>
+				<span asp-validation-for="CourseModel.TeacherId" class="text-danger"></span>
+			</section>
+			<formlink link-title="دوره های آموزشی" btn-color="success"></formlink>
+		</aside>
+	</section>
+</form>
+@section scripts {
+	<script src="~/scripts/course-script.js"></script>
+}

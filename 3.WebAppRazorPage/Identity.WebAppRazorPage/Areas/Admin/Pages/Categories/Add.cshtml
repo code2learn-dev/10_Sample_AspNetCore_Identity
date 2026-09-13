@@ -1,0 +1,13 @@
+﻿@page
+@model Identity.WebAppRazorPage.Areas.Admin.Pages.Categories.AddModel
+@{
+}
+<htext>ثبت دسته آموزشی جدید</htext>
+<form method="post" asp-page="Add">
+	<section class="mt-2">
+		<label asp-for="CategoryModel.Title"></label>
+		<input asp-for="CategoryModel.Title" class="form-control" />
+		<span asp-validation-for="CategoryModel.Title" class="text-danger text-start"></span>
+	</section>
+	<formlink link-title="دسته های آموزشی" page="Categories" btn-title="ذخیره"></formlink>
+</form>

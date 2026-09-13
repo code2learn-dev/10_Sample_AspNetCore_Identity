@@ -1,0 +1,14 @@
+﻿@page "{id?}"
+@model Identity.WebAppRazorPage.Areas.Admin.Pages.Categories.EditModel
+@{
+}
+<htext>ویرایش دسته آموزشی</htext>
+<form asp-page="Edit" method="post">
+	<input asp-for="CategoryModel.Id" type="hidden" />
+	<section class="mt-2">
+		<label asp-for="CategoryModel.Title"></label>
+		<input asp-for="CategoryModel.Title" class="form-control" />
+		<span asp-validation-for="CategoryModel.Title" class="text-danger"></span>
+	</section>
+	<formlink link-title="دسته های آموزشی" page="Categories" btn-title="ویرایش" btn-color="success"></formlink>
+</form>

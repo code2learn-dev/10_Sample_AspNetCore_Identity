@@ -1,0 +1,44 @@
+﻿@page "{id?}"
+@using Identity.WebAppRazorPage.Areas.Admin.Pages.Teachers
+@model Identity.WebAppRazorPage.Areas.Admin.Pages.Teachers.DisplayModel
+@{
+}
+@section styles {
+	<link href="~/lib/course-style.css" rel="stylesheet" />
+}
+<htext alert="warn">اطلاعات مدرس</htext>
+<section class="row">
+	<aside class="col-md-4">
+		<section class="image-container">
+			<img src="@Model.TeacherModel.TeacherImageUrl" data-action="edit" />
+		</section>
+	</aside>
+	<aside class="col-md-8">
+		<section class="mt-2">
+			<label asp-for="TeacherModel.FirstName"></label>
+			<input asp-for="TeacherModel.FirstName" class="form-control" disabled="disabled" />
+		</section>
+		<section class="mt-2">
+			<label asp-for="TeacherModel.LastName"></label>
+			<input asp-for="TeacherModel.LastName" class="form-control" disabled="disabled" />
+		</section>
+		<section class="mt-2">
+			<label asp-for="TeacherModel.NationaCode"></label>
+			<input asp-for="TeacherModel.NationaCode" class="form-control" disabled="disabled" />
+		</section> 
+		<editlinks page="Teachers" back-link-caption="مدرسین" id="@Model.TeacherModel.Id"></editlinks>
+	</aside>
+</section>
+@section scripts {
+	<script>
+		const image = document.querySelector('img');
+		const action = image.dataset.action;
+		if (action !== undefined && action === 'edit') {
+			image.style.display = 'block';
+			setTimeout(() => {
+				image.style.opacity = '1.0';
+			}, 400);
+		}
+	</script>
+}
+

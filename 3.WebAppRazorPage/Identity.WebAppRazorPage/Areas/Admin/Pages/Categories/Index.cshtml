@@ -1,0 +1,39 @@
+﻿@page
+@model Identity.WebAppRazorPage.Areas.Admin.Pages.Categories.IndexModel
+@{
+}
+<h6 class="alert alert-info">لیست دسته بندی دوره های آموزشی</h6>
+<table class="table table-bordered table-striped table-responsive-md">
+	<thead>
+		<tr>
+			<td>#</td>
+			<td>عنوان دسته آموزشی</td>
+			<td>عملیات</td>
+		</tr>
+	</thead>
+	<tbody>
+		@if (Model.Categories.Any())
+		{
+			foreach (var category in Model.Categories.Index())
+			{
+				<tr>
+					<td>@(category.Index + 1)</td>
+					<td>@category.Item.Title</td>
+					<td>
+						<a class="btn btn-info btn-sm" asp-page="Edit" asp-route-id="@category.Item.Id">ویرایش</a>
+						<a class="btn btn-danger btn-sm" asp-page="Delete" asp-route-id="@category.Item.Id">حذف</a>
+					</td>
+				</tr>
+			}
+		}
+		else
+		{
+			<tr>
+				<td colspan="3">
+					<p class="alert alert-warning text-center">دسته آموزشی ثبت نشده است</p>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+<addlink caption="دسته آموزشی جدید" page="Categories"></addlink>

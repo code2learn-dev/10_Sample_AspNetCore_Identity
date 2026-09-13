@@ -1,0 +1,49 @@
+﻿@page
+@model Identity.WebAppRazorPage.Areas.Admin.Pages.Users.IndexModel
+@{
+}
+@inject IAuthorizationService _authorizationService
+<htext>مدیریت کاربرین</htext>
+<table class="table">
+	<thead>
+		<tr>
+			<td>#</td>
+			<td>نام</td>
+			<td>نام خانوادگی</td>
+			<td>نام کاربری</td>
+			<td>عملیات</td>
+		</tr>
+	</thead>
+	<tbody>
+		@if (Model.Users.Any())
+		{
+			foreach (var user in Model.Users.Index())
+			{
+				if ((await _authorizationService.AuthorizeAsync(HttpContext.User, user.Item, "userslist")).Succeeded)
+				{
+					<tr>
+						<td>@(user.Index + 1)</td>
+						<td>@user.Item.FirstName</td>
+						<td>@user.Item.LastName</td>
+						<td>@user.Item.UserName</td>
+						<td>
+							<a asp-page="Edit" asp-route-id="@user.Item.Id" class="btn btn-primary btn-sm">ویرایش</a>
+							<a asp-page="Delete" asp-route-id="@user.Item.Id" class="btn btn-danger btn-sm">حذف</a>
+							<a asp-page="EditPassword" asp-route-id="@user.Item.Id" class="btn btn-info btn-sm">تغییر رمز عبور</a>
+							<a asp-page="Display" asp-route-id="@user.Item.Id" class="btn btn-warning btn-sm">مشاده کاربر</a>
+						</td>
+					</tr>
+				}
+			}
+		}
+		else
+		{
+			<tr>
+				<td colspan="5">
+					<p class="alert alert-warning text-center">کاربری ثبت نشده است</p>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+<addlink caption="کاربر جدید" page="Users"></addlink>

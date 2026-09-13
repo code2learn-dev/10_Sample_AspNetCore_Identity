@@ -1,0 +1,44 @@
+﻿.navbar {
+	border: 1px solid #aaa;
+	border-radius: .3rem;
+	box-shadow: 0 0 1.4rem -.6rem #999;
+	margin: 2rem 0;
+}
+
+#message-list {
+	position: fixed;
+	bottom: -2rem;
+	left: 1rem;
+	opacity: 0.0;
+	transition: .3s ease-out;
+	z-index: 111 !important; 
+}
+
+	#message-list p {
+		height: 3rem;
+		line-height: 2.5rem;
+		color: white;
+		padding: 0 1rem;
+		text-align: center;
+	}
+
+.success-bg-text {
+	background-color: #29b99e;
+}
+.danger-bg-text {
+	background-color: #c40909;
+}
+
+.ml-1 {
+	margin-left: .5rem; 
+}
+
+.input-validation-error {
+	border: 1px solid #c40909;
+}
+
+:is(.input-validation-error:active, .input-validation-error:focus) {
+	box-shadow: 0 0 1.4rem -.6rem #c40909 !important;
+	outline: none;
+	border: 1px solid #c40909;
+}

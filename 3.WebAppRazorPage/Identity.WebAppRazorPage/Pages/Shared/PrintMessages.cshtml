@@ -1,0 +1,9 @@
+﻿@if (MessageHelper.Messages.Any())
+{
+	<div id="message-list" class="mt-2">
+		@foreach (var message in MessageHelper.Messages)
+		{
+			<div>@Html.Raw(message)</div>
+		}
+	</div>
+} 

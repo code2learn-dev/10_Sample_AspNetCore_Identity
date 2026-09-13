@@ -1,0 +1,50 @@
+﻿@page "/"
+@model Identity.WebAppRazorPage.Pages.Default.IndexModel
+@{
+}
+@section styles {
+	<style>
+		.course-container {
+			padding: 0;
+		}
+
+		img.course-item-image {
+			width: 100%;
+			height: 10rem;
+			border-radius: 5px; 
+			display: block;
+			object-fit: cover;
+		} 
+		.course-container h5 {
+			margin-top: 1rem;
+		}
+		.course-container p {
+			display: inline;
+			padding: .5rem;
+		}
+	</style>
+}
+<htext>لیست دوره آموزشی</htext>
+@if (Model.Courses.Any())
+{
+	<section class="row">
+		@foreach (var course in Model.Courses)
+		{
+			<aside class="col-md-3">
+				<section class="card course-container">
+					<div class="card-body">
+						<img class="course-item-image" src="@($"{Model.BaseImageUrl}{course.Image}")" />
+						<h5 class="card-title">@course.Title</h5>
+						<div class="text-start mt-4">
+							<p class="btn btn-success">@($"{course.Price:N0} تومان")</p>
+							<a class="btn btn-primary" asp-page="/Courses/Index">مشاهده دوره</a>
+						</div>
+					</div>
+				</section>
+			</aside>
+		}
+	</section>
+}
+else {
+	<p class="alert alert-warning text-center mt-2">دوره آموزشی ثبت نشده است</p>
+	}

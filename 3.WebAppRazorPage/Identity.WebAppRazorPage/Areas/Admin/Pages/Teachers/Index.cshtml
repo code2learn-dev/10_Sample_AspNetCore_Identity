@@ -1,0 +1,44 @@
+﻿@page
+@model Identity.WebAppRazorPage.Areas.Admin.Pages.Teachers.IndexModel
+@{
+}
+<htext>لیست مدرسین</htext>
+<table class="table table-bordered table-striped table-responsive-md">
+	<thead>
+		<tr>
+			<td>#</td> 
+			<td>نام</td>
+			<td>نام خانوادگی</td>
+			<td>کد ملی</td>
+			<td>عملیات</td> 
+		</tr>
+	</thead>
+	<tbody>
+		@if (Model.Teachers.Any())
+		{
+			foreach (var teacher in Model.Teachers.Index())
+			{
+				<tr>
+					<td>@(teacher.Index + 1)</td>
+					<td>@teacher.Item.FirstName</td>
+					<td>@teacher.Item.LastName</td>
+					<td>@teacher.Item.NationaCode</td>
+					<td>
+						<a class="btn btn-info btn-sm" asp-page="Edit" asp-route-id="@teacher.Item.Id">ویرایش</a>
+						<a class="btn btn-danger btn-sm" asp-page="Delete" asp-route-id="@teacher.Item.Id">حذف</a>
+						<a class="btn btn-warning btn-sm" asp-page="Display" asp-route-id="@teacher.Item.Id">نمایش</a>
+					</td>
+				</tr>
+			}
+		}
+		else
+		{
+			<tr>
+				<td colspan="5">
+					<p class="alert alert-warning text-center">دسته آموزشی ثبت نشده است</p>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+<addlink page="Teachers" caption="تعریف مدرس جدید"></addlink>

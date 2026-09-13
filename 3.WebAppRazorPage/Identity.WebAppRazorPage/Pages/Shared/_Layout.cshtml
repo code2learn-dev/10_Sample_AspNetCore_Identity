@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+
+<html dir="rtl" lang="fa-ir">
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title>@ViewBag.Title</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/lib/base-style.css" />
+	@RenderSection("styles", false)
+</head>
+<body>
+	<header class="container">
+		<nav class="navbar navbar-expand-lg bg-body-tertiary">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="#">Navbar</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav">
+						<li class="nav-item">
+							<a class="nav-link" asp-page="/Default/Index">صفحه اصلی</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">سبد خرید</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" asp-area="Admin" asp-page="/Dashboard/Index">مدیریت</a>
+						</li>
+						<vc:navbar-user-identity-state></vc:navbar-user-identity-state>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+	<main class="container">
+		<partial name="PrintMessages" />
+		@RenderBody()
+	</main>
+	<script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
+	@RenderSection("scripts", false)
+	@if (MessageHelper.Messages.Any())
+	{
+		<script>
+			const messageList = document.getElementById('message-list');
+			window.addEventListener('load', function () {
+				this.setTimeout(() => {
+					messageList.style.opacity = '1.0';
+					messageList.style.bottom = '1rem';
+				}, 500);
+
+				setTimeout(() => {
+					messageList.style.opacity = '0.0';
+					messageList.style.bottom = '-2rem';
+				}, 3000);
+			});
+
+		</script>
+		MessageHelper.ClearMessages();
+	}
+</body>
+</html>

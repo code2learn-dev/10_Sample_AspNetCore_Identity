@@ -1,0 +1,11 @@
+﻿@model UserDtoModel
+@{
+	string userPanelName = $"پنل کاربری {Model.FirstName} {Model.LastName}";
+}
+
+<li class="nav-item">
+	<a class="nav-link" asp-page="/Dashboard/Index" asp-area="Member">@userPanelName</a>
+</li>
+<li class="nav-item">
+	<a class="nav-link" asp-page="/Profile/LogOut" asp-area="Member">خروج از حساب کاربری</a>
+</li>

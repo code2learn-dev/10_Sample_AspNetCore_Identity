@@ -1,0 +1,46 @@
+﻿@page "{id?}"
+@model Identity.WebAppRazorPage.Areas.Admin.Pages.Courses.DisplayModel
+@{
+}
+@section styles {
+	<link href="~/lib/course-style.css" rel="stylesheet" />
+}
+<htext>جزئیات دوره آموزشی</htext>
+<section class="row">
+	<aside class="col-md-4">
+		<section class="image-container">
+			<img src="@Model.CourseModel.CourseImageUrl" alt="@Model.CourseModel.Title" data-action="edit" />
+		</section>
+	</aside>
+	<aside class="col-md-8">
+		<section class="mt-2">
+			<label asp-for="CourseModel.Title"></label>
+			<input asp-for="CourseModel.Title" class="form-control" disabled="disabled" />
+		</section>
+		<section class="mt-2">
+			<label asp-for="CourseModel.Price"></label>
+			<input asp-for="CourseModel.Price" class="form-control" disabled="disabled" />
+		</section>
+		<section class="mt-2">
+			<label asp-for="CourseModel.CategoryId"></label>
+			<select asp-for="CourseModel.CategoryId"
+					asp-items="@Model.CourseModel.CategorySelectListItem"
+					class="form-select"
+					disabled="disabled">
+				<option selected="selected" disabled="disabled" value="">انتخاب دسته آموزشی</option>
+			</select>
+		</section>
+		<section class="mt-2">
+			<label asp-for="CourseModel.TeacherId"></label>
+			<select asp-for="CourseModel.TeacherId" 
+					asp-items="@Model.CourseModel.TeacherSelectListItem" 
+					class="form-select"
+					disabled="disabled"> 
+			</select> 
+		</section>
+		<editlinks page="Courses" back-link-caption="دوره های آموزشی" id="@Model.CourseModel.Id"></editlinks>
+	</aside>
+</section>
+@section scripts {
+	<script src="~/scripts/course-edit-script.js"></script>
+}

@@ -1,0 +1,42 @@
+﻿@page
+@model Identity.WebAppRazorPage.Areas.Admin.Pages.Profile.ClaimsModel
+@{
+}
+<htext>لیست Claim ها</htext>
+<table class="table table-bordered table-striped table-responsive-md">
+	<thead>
+		<tr>
+			<td>#</td> 
+			<td>نام</td>
+			<td>مقدار</td>
+			<td>عملیات</td>
+		</tr>
+	</thead>
+	<tbody>
+		@if (Model.ClaimsList.Any())
+		{
+			foreach (var claim in Model.ClaimsList.Index())
+			{
+				<tr>
+					<td>@(claim.Index + 1)</td>
+					<td>@claim.Item.ClaimType</td>
+					<td>@claim.Item.ClaimValue</td>
+					<td>
+						<a class="btn btn-info btn-sm" asp-page="Edit" asp-route-id="@claim.Item.ClaimType">ویرایش</a>
+						<a class="btn btn-danger btn-sm" asp-page="Delete" asp-route-id="@claim.Item.ClaimType">حذف</a>
+					</td>
+				</tr>
+			}
+		}
+		else
+		{
+			<tr>
+				<td colspan="4">
+					<p class="alert alert-warning text-center">Claim ثبت نشده است</p>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+<addlink caption="Claim جدید" page="Profile"></addlink>
+

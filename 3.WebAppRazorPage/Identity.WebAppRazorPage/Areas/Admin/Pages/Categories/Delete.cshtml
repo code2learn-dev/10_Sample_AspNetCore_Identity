@@ -1,0 +1,13 @@
+﻿@page "{id?}"
+@model Identity.WebAppRazorPage.Areas.Admin.Pages.Categories.DeleteModel
+@{
+}
+<htext alert="danger">حذف دسته آموزشی</htext>
+<form asp-page="Delete" method="post">
+	<input asp-for="CategoryModel.Id" type="hidden" />
+	<section class="mt-2">
+		<label asp-for="CategoryModel.Title"></label>
+		<input asp-for="CategoryModel.Title" class="form-control" disabled="disabled" />
+	</section>
+	<formlink link-title="دسته های آموزشی" page="Categories" btn-title="حذف" btn-color="danger"></formlink>
+</form>

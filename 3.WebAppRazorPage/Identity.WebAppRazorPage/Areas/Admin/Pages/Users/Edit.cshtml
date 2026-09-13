@@ -1,0 +1,68 @@
+﻿@page "{id?}"
+@model Identity.WebAppRazorPage.Areas.Admin.Pages.Users.EditModel
+@{
+}
+@section styles {
+	<link href="~/lib/course-style.css" rel="stylesheet" />
+}
+<htext>ویرایش کاربر</htext>
+<form asp-page="Edit" method="post" enctype="multipart/form-data">
+	<input type="hidden" asp-for="UserModel.Id" >
+	<input type="hidden" asp-for="UserModel.Image" >
+	<input type="hidden" asp-for="UserModel.UserImageUrl" id="user-image" >
+	<section class="row">
+		<aside class="col-md-3">
+			<section class="image-container">
+				<img src="" />
+				<p class="text-center" id="image-text">تصویری انتخاب نشده است</p>
+			</section>
+			<div class="image-contorols">
+				<button type="button" id="btn-add-image" class="btn btn-primary">انتخاب تصویر جدید</button>
+				<button type="button" id="btn-default-image" class="btn btn-danger"> تصویراولیه</button>
+				<input asp-for="UserModel.File" type="file" />
+			</div>
+		</aside>
+		<aside class="col-md-9">
+			<section class="row">
+				<section class="col-md-6 mt-2">
+					<label asp-for="UserModel.FirstName"></label>
+					<input asp-for="UserModel.FirstName" class="form-control" />
+					<span asp-validation-for="UserModel.FirstName" class="text-danger"></span>
+				</section>
+				<section class="col-md-6 mt-2">
+					<label asp-for="UserModel.LastName"></label>
+					<input asp-for="UserModel.LastName" class="form-control" />
+					<span asp-validation-for="UserModel.LastName" class="text-danger"></span>
+				</section>
+			</section>
+			<section class="mt-2">
+				<label asp-for="UserModel.Email"></label>
+				<input asp-for="UserModel.Email" class="form-control" />
+				<span asp-validation-for="UserModel.Email" class="text-danger"></span>
+			</section>
+			<section class="mt-2">
+				<label asp-for="UserModel.PhoneNumber"></label>
+				<input asp-for="UserModel.PhoneNumber" class="form-control" />
+				<span asp-validation-for="UserModel.PhoneNumber" class="text-danger"></span>
+			</section>
+			<section class="mt-2">
+				<label asp-for="UserModel.UserName"></label>
+				<input asp-for="UserModel.UserName" class="form-control" />
+				<span asp-validation-for="UserModel.UserName" class="text-danger"></span>
+			</section>
+			<section class="mt-2">
+				<label asp-for="UserModel.RoleId"></label>
+				<select asp-for="UserModel.RoleId"
+						asp-items="@Model.UserModel.RoleSelectListItem"
+						class="form-control">
+					<option selected="selected" disabled="disabled">انتخاب نقش کاربر</option>
+				</select>
+				<span asp-validation-for="UserModel.RoleId" class="text-danger"></span>
+			</section> 
+			<formlink link-title="کاربرها" page="Users"></formlink>
+		</aside>
+	</section>
+</form>
+@section scripts {
+	<script src="~/scripts/user-edit-script.js"></script>
+}

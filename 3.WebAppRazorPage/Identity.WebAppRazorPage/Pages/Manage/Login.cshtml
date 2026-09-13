@@ -1,0 +1,39 @@
+﻿@page
+@model Identity.WebAppRazorPage.Pages.Manage.LoginModel
+@{
+}
+<section class="row" dir="ltr">
+	<section class="col-md-4 offset-md-4" dir="rtl">
+		<section class="card">
+			<div class="card-body">
+				<htext>ورود به مدیریت</htext>
+				<form asp-page="Login" method="post">
+					<input asp-for="Login.ReturnUrl" type="hidden" />
+					<section class="mt-3">
+						<label asp-for="Login.UserName"></label>
+						<input asp-for="Login.UserName" class="form-control" />
+						<span asp-validation-for="Login.UserName" class="text-danger"></span>
+					</section>
+					<section class="mt-3">
+						<label asp-for="Login.Password"></label>
+						<input asp-for="Login.Password" class="form-control" />
+						<span asp-validation-for="Login.Password" class="text-danger"></span>
+					</section>
+					<section class="mt-3">
+						<input asp-for="Login.RememberMe" type="checkbox" />
+						<label asp-for="Login.RememberMe"></label>
+					</section>
+					<section class="mt-3 text-start">
+						<a class="text-info" asp-page="ForgetPassword">فراموشی رمز عبور</a>
+						<button class="btn btn-info">ورود به مدیریت</button>
+					</section>
+				</form>
+			</div>
+		</section>
+	</section>
+</section>
+@section scripts {
+	<script src="~/scripts/jquery-3.4.1.min.js"></script>
+	<script src="~/scripts/jquery.validate.min.js"></script>
+	<script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
+}

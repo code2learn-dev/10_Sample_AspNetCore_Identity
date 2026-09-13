@@ -1,0 +1,19 @@
+﻿@page "{id?}"
+@model Identity.WebAppRazorPage.Areas.Admin.Pages.Profile.EditModel
+@{
+}
+<htext>ویرایش Claim</htext>
+<form asp-page="Edit" method="post">
+	<input asp-for="ClaimModel.UserId" type="hidden" />
+	<section class="mt-2">
+		<label asp-for="ClaimModel.ClaimType"></label>
+		<input asp-for="ClaimModel.ClaimType" class="form-control" />
+		<span asp-validation-for="ClaimModel.ClaimType" class="text-danger text-start"></span>
+	</section>
+	<section class="mt-2">
+		<label asp-for="ClaimModel.ClaimValue"></label>
+		<input asp-for="ClaimModel.ClaimValue" class="form-control" />
+		<span asp-validation-for="ClaimModel.ClaimValue" class="text-danger text-start"></span>
+	</section>
+	<formlink link-title="claim ها" page="Claims" btn-title="ذخیره"></formlink>
+</form>

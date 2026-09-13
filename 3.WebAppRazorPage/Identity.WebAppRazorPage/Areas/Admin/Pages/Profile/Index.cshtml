@@ -1,0 +1,107 @@
+﻿@page
+@model Identity.WebAppRazorPage.Areas.Admin.Pages.Profile.IndexModel
+@{
+}
+@section styles {
+	<link href="~/lib/course-style.css" rel="stylesheet" />
+}
+<htext>پروفایل کاربری</htext>
+<section class="row">
+	<input asp-for="AccountProfile.Image" type="hidden" id="image-url" />
+	<aside class="col-md-3">
+		<section class="image-container">
+			<img src="" />
+			<p class="text-center" id="image-text">تصویری انتخاب نشده است</p>
+		</section>
+	</aside>
+	<aside class="col-md-9">
+		<section class="row">
+			<aside class="col-md-6 mt-3">
+				<label asp-for="AccountProfile.FirstName"></label>
+				<input asp-for="AccountProfile.FirstName" class="form-control" disabled="disabled" />
+			</aside>
+			<aside class="col-md-6 mt-3">
+				<label asp-for="AccountProfile.LastName"></label>
+				<input asp-for="AccountProfile.LastName" class="form-control" disabled="disabled" />
+			</aside>
+		</section>
+		<section class="row">
+			<section class="col-md-6 mt-3">
+				<label asp-for="AccountProfile.Email"></label>
+				<input asp-for="AccountProfile.Email" class="form-control" disabled="disabled" />
+			</section>
+			<section class="col-md-6 mt-3">
+				<label asp-for="AccountProfile.PhoneNumber"></label>
+				<input asp-for="AccountProfile.PhoneNumber" class="form-control" disabled="disabled" />
+			</section>
+		</section>
+		<section class="mt-3">
+			<label asp-for="AccountProfile.UserName"></label>
+			<input asp-for="AccountProfile.UserName" class="form-control" disabled="disabled" />
+		</section> 
+		<section class="mt-3">
+			<label asp-for="AccountProfile.RoleId"></label>
+			<select asp-for="AccountProfile.RoleId"
+					asp-items="@Model.AccountProfile.RolesSelectListItem"
+					class="form-control"
+					disabled="disabled">
+			</select>
+		</section>
+		<section class="mt-3">
+			<label asp-for="AccountProfile.EmailConfirmed"></label>
+			@if (Model.AccountProfile.EmailConfirmed)
+			{
+				<p class="alert bg-danger">تایید شده</p>
+			}
+			else
+			{
+				<p class="alert bg-danger p-1 d-inline text-white">تایید نشده</p>
+			}
+		</section>
+		<section class="mt-3">
+			<label asp-for="AccountProfile.PhoneNumberConfirmed"></label>
+			@if (Model.AccountProfile.PhoneNumberConfirmed)
+			{
+				<p class="alert bg-danger">تایید شده</p>
+			}
+			else
+			{
+				<p class="alert bg-danger p-1 d-inline text-white">تایید نشده</p>
+			}
+		</section>
+		<section class="mt-3">
+			<label asp-for="AccountProfile.TwoFactorEnabled"></label>
+			@if (Model.AccountProfile.TwoFactorEnabled)
+			{
+				<p class="alert bg-danger">فعال شده</p>
+			}
+			else
+			{
+				<p class="alert bg-danger p-1 d-inline text-white">فعال نشده</p>
+			}
+		</section>
+		<section class="card mt-3 text-start">
+			<div class="card-body">
+				<a asp-page="Claims" class="btn btn-warning">لیست Claims</a>
+				<a asp-page="SystemClaims" class="btn btn-warning">System Claims</a>
+			</div>
+		</section>
+	</aside>
+</section>
+@section scripts {
+	<script type="text/javascript">
+		const image = document.querySelector('img');
+		const imageText = document.querySelector('p');
+		const imageUrl = document.getElementById('image-url');
+		window.addEventListener('load', () => {
+			image.setAttribute('src', imageUrl.value);
+			image.style.display = 'block';
+			imageText.style.opacity = '1.0';
+
+			setTimeout(() => {
+				imageText.style.display = 'none';
+				image.style.opacity = '1.0';
+			}, 400);
+		});
+	</script>
+}

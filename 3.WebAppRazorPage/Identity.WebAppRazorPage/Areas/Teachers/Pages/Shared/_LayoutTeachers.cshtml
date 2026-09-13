@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+
+<html dir="rtl" lang="fa">
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title>@ViewBag.Title</title>
+	<link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="~/lib/base-style.css" rel="stylesheet" />
+	<link href="~/lib/base-teacher-area.css" rel="stylesheet" />
+	@RenderSection("styles", false)
+</head>
+<body>
+	<header class="container">
+		<nav class="navbar navbar-expand-lg bg-body-tertiary">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="#">Navbar</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav">
+						<li class="nav-item">
+							<a class="nav-link" asp-page="/Dashboard/Index" asp-area="Teachers">داشبورد</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" asp-page="/Default/Index">صفحه اصلی</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" asp-page="Default/Index">خروج</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+	<main class="container">
+		<section class="row">
+			<aside class="col-md-2">
+				<div class="profile-image">
+					<img src="~/assets/images/Teachers/پیام برومند_f6923e79-6b2a-4079-bf4c-e12bf5cd6b2e_.jpg" />
+					<p>پیام برومند</p>
+				</div>
+				<ul class="aside-menu">
+					<li>
+						<a asp-area="Teachers" asp-page="/Dashboard/Index">داشبورد</a>
+					</li>
+					<li>
+						<a asp-area="Teachers" asp-page="/Courses/Index">دوره های من</a>
+					</li>
+					<li>
+						<a asp-area="Teachers" asp-page="/Profile/Index">پروفایل</a>
+					</li>
+					<li>
+						<a asp-area="Teachers" asp-page="/Dashboard/SignOut">خروج از حساب</a>
+					</li>
+				</ul>
+			</aside>
+			<aside class="col-md-10">
+				<partial name="PrintMessages" />
+				@RenderBody()
+			</aside>
+		</section>
+	</main>
+	<script src="~/scripts/jquery-3.4.1.min.js"></script>
+	<script src="~/scripts/jquery.validate.min.js"></script>
+	<script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
+
+	@if (MessageHelper.Messages.Any())
+	{
+		<script type="text/javascript">
+			const messageList = document.getElementById('message-list');
+			window.addEventListener('load', () => {
+				setTimeout(() => {
+					messageList.style.opacity = '1.0';
+					messageList.style.bottom = '1rem';
+				}, 500);
+			});
+
+			setTimeout(() => {
+				messageList.style.opacity = '0.0';
+				messageList.style.bottom = '-2rem';
+			}, 3000);
+		</script>
+
+		MessageHelper.ClearMessages();
+	}
+
+	@RenderSection("scripts", false)
+</body>
+</html>

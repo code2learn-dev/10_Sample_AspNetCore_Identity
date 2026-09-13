@@ -1,0 +1,44 @@
+﻿@page
+@model Identity.WebAppRazorPage.Areas.Admin.Pages.Profile.SystemClaimsModel
+@{
+	string? claimType = string.Empty;
+}
+<htext>System Claims</htext>
+<table class="table table-bordered table-striped table-responsive-md">
+	<thead>
+		<tr>
+			<td>#</td>
+			<td>نام</td>
+			<td>نوع</td>
+			<td>مقدار</td>
+		</tr>
+	</thead>
+	<tbody>
+		@if (Model.ClaimsList.Any())
+		{
+			foreach (var claim in Model.ClaimsList.Index())
+			{
+				claimType = (claim.Item.ClaimType.Split("/")).LastOrDefault();
+				<tr>
+					<td>@(claim.Index + 1)</td>
+					<td>@claim.Item.Name</td>
+					<td>@(claimType ?? "-")</td>
+					<td>@claim.Item.ClaimValue</td>
+				</tr>
+			}
+		}
+		else
+		{
+			<tr>
+				<td colspan="4">
+					<p class="alert alert-warning text-center">Claim ثبت نشده است</p>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+<div class="card">
+	<div class="card-body text-start">
+		<a asp-page="Claims" class="btn btn-warning">لیست claim های شخصی</a>
+	</div>
+</div>

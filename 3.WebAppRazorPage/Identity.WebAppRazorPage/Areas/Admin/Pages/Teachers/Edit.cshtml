@@ -1,0 +1,48 @@
+﻿@page "{id?}"
+@model Identity.WebAppRazorPage.Areas.Admin.Pages.Teachers.EditModel
+@{
+}
+@section styles {
+	<link href="~/lib/course-style.css" rel="stylesheet" />
+}
+<htext alert="success">ویرایش اطلاعات مدرس</htext>
+<form asp-page="Edit" method="post" enctype="multipart/form-data">
+	<input asp-for="TeacherModel.Id" type="hidden" />
+	<input asp-for="TeacherModel.Image" type="hidden" />
+	<input asp-for="TeacherModel.TeacherImageUrl" type="hidden" id="teacher-image" />
+	<input value="" type="hidden" id="teacher-image" />
+	<section class="row">
+		<aside class="col-md-4">
+			<section class="image-container">
+				<img src="@Model.TeacherModel.TeacherImageUrl" data-action="edit" /> 
+			</section>
+			<div class="image-contorols">
+				<button type="button" id="btn-update-image" class="btn btn-primary">انتخاب تصویر جدید</button>
+				<button type="button" id="btn-default-image" class="btn btn-danger">بازگردانی تصویر اول</button>
+				<input asp-for="TeacherModel.File" type="file" />
+				<span asp-validation-for="TeacherModel.Image" class="d-block mt-2 text-danger"></span>
+			</div>
+		</aside>
+		<aside class="col-md-8">
+			<section class="mt-2">
+				<label asp-for="TeacherModel.FirstName"></label>
+				<input asp-for="TeacherModel.FirstName" class="form-control" />
+				<span asp-validation-for="TeacherModel.FirstName" class="text-danger"></span>
+			</section>
+			<section class="mt-2">
+				<label asp-for="TeacherModel.LastName"></label>
+				<input asp-for="TeacherModel.LastName" class="form-control" />
+				<span asp-validation-for="TeacherModel.LastName" class="text-danger"></span>
+			</section>
+			<section class="mt-2">
+				<label asp-for="TeacherModel.NationaCode"></label>
+				<input asp-for="TeacherModel.NationaCode" class="form-control" />
+				<span asp-validation-for="TeacherModel.NationaCode" class="text-danger"></span>
+			</section>
+			<formlink link-title="لیست مدرسین" page="Teachers" btn-color="success" btn-title="ذخیره تغییرات"></formlink>
+		</aside>
+	</section>
+</form>
+@section scripts {
+	<script src="~/scripts/teacher-edit.js"></script>
+}

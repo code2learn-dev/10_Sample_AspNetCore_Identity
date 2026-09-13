@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+
+<html dir="rtl" lang="fa-ir">
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title>@ViewBag.Title</title>
+	<link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="~/lib/base-style.css" rel="stylesheet" />
+	@RenderSection("styles", false) 
+</head>
+<body>
+	<header class="container">
+		<nav class="navbar navbar-expand-lg bg-body-tertiary">
+			<div class="container-fluid">
+				<a class="navbar-brand" asp-page="/Default/Index">صفحه اصلی</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav">
+						<li class="nav-item">
+							<a class="nav-link" asp-page="/Dashboard/Index" asp-area="Admin">داشبورد</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" asp-area="Admin" asp-page="/Categories/Index">دسته های آموزشی</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" asp-area="Admin" asp-page="/Courses/Index">دوره های آموزشی</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" asp-area="Admin" asp-page="/Teachers/Index">مدیریت مدرسین</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" asp-area="Admin" asp-page="/Users/Index">کاربرین</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" asp-area="Admin" asp-page="/Roles/Index">مدیریت نقش ها</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" asp-page="/Profile/Index" asp-area="Admin">پروفایل کاربری</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" asp-page="/Profile/LogOut" asp-area="Admin">خروج از مدیریت</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+	<main class="container">
+		<section class="card">
+			<partial name="PrintMessages" />
+			<div class="card-body">
+				@RenderBody()
+			</div>
+		</section>
+	</main>
+
+	<!-- Use jQuery 3.4.1 (last version with parseJSON) -->
+	<script src="~/scripts/jquery-3.4.1.min.js"></script>
+	<script src="~/scripts/jquery.validate.min.js"></script>
+	<script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
+
+	@if (MessageHelper.Messages.Any())
+	{
+		<script type="text/javascript">
+			const messageList = document.getElementById('message-list');
+			window.addEventListener('load', () => {
+				setTimeout(() => {
+					messageList.style.opacity = '1.0';
+					messageList.style.bottom = '1rem';
+				}, 500);
+			});
+
+			setTimeout(() => {
+				messageList.style.opacity = '0.0';
+				messageList.style.bottom = '-2rem';
+			}, 3000);
+		</script>
+
+		MessageHelper.ClearMessages();
+	}
+
+	@RenderSection("scripts", false)
+</body>
+</html>

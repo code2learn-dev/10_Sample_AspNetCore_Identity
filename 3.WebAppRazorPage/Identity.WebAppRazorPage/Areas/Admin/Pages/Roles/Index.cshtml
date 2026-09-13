@@ -1,0 +1,40 @@
+﻿@page
+@model Identity.WebAppRazorPage.Areas.Admin.Pages.Roles.IndexModel
+@{
+}
+<htext>مدیریت نقش ها</htext>
+<table class="table">
+	<thead>
+		<tr>
+			<td>#</td>
+			<td>عنوان نقش</td>
+			<td>عملیات</td>
+		</tr>
+	</thead>
+	<tbody>
+		@if (Model.Roles.Any())
+		{
+			foreach (var role in Model.Roles.Index())
+			{
+				<tr>
+					<td>@(role.Index + 1)</td>
+					<td>@role.Item.Name</td> 
+					<td>@role.Item.Description</td> 
+					<td>
+						<a asp-page="Edit" asp-route-id="@role.Item.Id" class="btn btn-success btn-sm">ویرایش</a>
+						<a asp-page="Delete" asp-route-id="@role.Item.Id" class="btn btn-danger btn-sm">حذف</a>
+					</td>
+				</tr>
+			}
+		}
+		else
+			{
+				<tr>
+					<td colspan="3">
+						<p class="alert alert-warning text-center">نقشی ثبت نشده است</p>
+					</td>
+				</tr>
+			}
+	</tbody>
+</table>
+<addlink caption="نقش چدید" page="Roles"></addlink>
