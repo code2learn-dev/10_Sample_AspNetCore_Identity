@@ -4,10 +4,26 @@
     [Route("api/[controller]")]
     public class CategoryController : ControllerBase
     {
-        [HttpGet]
-        public IActionResult Get()
+        private readonly ICategoryService _categoryService;
+        private readonly IMapper mapper;
+
+        public CategoryController(ICategoryService categoryService, IMapper mapper)
         {
-            return Ok("Category List");
+            _categoryService = categoryService;
+            this.mapper = mapper;
+        }
+
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, 
+                              Type = typeof(IReadOnlyCollection<CategoryViewModel>))]
+        public async Task<IActionResult> Get()
+        {
+            var appResult = await _categoryService.GetAllEntityDtosAsync();
+            if (!appResult.IsSuccess) return BadRequest(appResult.Errors);
+
+            IReadOnlyCollection<CategoryViewModel> categories =
+                                mapper.Map<IReadOnlyCollection<CategoryViewModel>>((appResult.Result));        
+            return Ok(categories);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace _10_Identity.WebApiApp.Dependencies
+﻿using _10_Identity.WebApiApp.Dependencies.Categories;
+
+namespace _10_Identity.WebApiApp.Dependencies
 {
     public static class WebApiApplicationServices
     {
@@ -10,9 +12,16 @@
                 options.UseSqlServer("Data Source=(local);Initial Catalog=sample_aspnetcore_identity_academy;TrustServerCertificate=True;Integrated Security=True;MultipleActiveResultSets=True;");
             });
 
+            // add web api service 
             builder.Services.AddControllers();
             builder.Services.AddSwaggerGen();
             builder.Services.AddEndpointsApiExplorer();
+
+            builder.Services
+                // add common services
+                .RegisterPublicServices()
+                // add categories services
+                .RegisterCategoriesService();
 
             return builder;
         }

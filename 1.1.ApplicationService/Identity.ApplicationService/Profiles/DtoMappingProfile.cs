@@ -9,7 +9,7 @@ namespace Identity.ApplicationService.Profiles
 		{
 			CreateMap<Category, CategoryDto>();
 			CreateMap<Category, CrudCategoryDto>();
-			CreateMap<CrudCategoryDto, Category>();
+			CreateMap<CrudCategoryDto, Category>(); 
 
 
 			CreateMap<Course, CourseDtoModel>();
