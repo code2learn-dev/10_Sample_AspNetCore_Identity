@@ -1,6 +1,7 @@
 ﻿using Identity.Domain.Categories;
 using Identity.Domain.Courses;
 using Identity.Domain.Teachers;
+using Identity.Domain.Users;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -14,6 +15,7 @@ namespace Identity.Domain.IDentityContent
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Degree>Degrees { get; set; }
+        public DbSet<UserToken> UserTokens { get; set; }
 
         public AcademyDbContext(DbContextOptions<AcademyDbContext> options) : base(options) { }
 
