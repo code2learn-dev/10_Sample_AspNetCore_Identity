@@ -1,4 +1,7 @@
 ﻿using _10_Identity.WebApiApp.Dependencies.Categories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace _10_Identity.WebApiApp.Dependencies
 {
@@ -16,6 +19,38 @@ namespace _10_Identity.WebApiApp.Dependencies
             builder.Services.AddControllers();
             builder.Services.AddSwaggerGen();
             builder.Services.AddEndpointsApiExplorer();
+
+
+            // add jwt bearer authenticatin configuration
+            var jwtSection = builder.Configuration.GetSection("jwt");
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSection["key"]));
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+             .AddJwtBearer(bearerOptions =>
+             {
+                 bearerOptions.TokenValidationParameters = new TokenValidationParameters()
+                 {
+                     ValidIssuer = jwtSection["issuer"],
+                     ValidAudience = jwtSection["audience"],
+                     IssuerSigningKey = securityKey,
+                     ValidateLifetime = true,
+                     ValidateIssuerSigningKey = true,
+                     SaveSigninToken = true
+                 };
+
+                 bearerOptions.Events = new JwtBearerEvents()
+                 {
+                     OnTokenValidated = e => { return Task.CompletedTask; },
+                     OnForbidden = e => { return Task.CompletedTask; },
+                     OnChallenge = e => { return Task.CompletedTask; },
+                     OnAuthenticationFailed = e => { return Task.CompletedTask; },
+                     OnMessageReceived = e => { return Task.CompletedTask; }
+                 };
+             });
 
             builder.Services
                 // add common services
