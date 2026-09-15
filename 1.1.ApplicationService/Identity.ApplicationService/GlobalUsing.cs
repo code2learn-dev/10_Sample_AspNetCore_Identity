@@ -3,6 +3,7 @@ global using Microsoft.Extensions.Logging;
 global using FluentValidation;
 global using FluentValidation.Results;
 global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.AspNetCore.Http;
 
 
 global using Identity.ApplicationService.Utilities;
@@ -41,12 +42,14 @@ global using Identity.Repository.Teachers;
 global using Identity.ApplicationService.Users.Entites;
 global using Identity.ApplicationService.Users.Response;
 global using Identity.ApplicationService.Users.Validators;
+global using Identity.ApplicationService.Users.Services;
 
 
 // role namesapces
 global using Identity.ApplicationService.Roles.Entities;
 global using Identity.ApplicationService.Roles.Response;
 global using Identity.ApplicationService.Roles.Validators;
+global using Identity.ApplicationService.Roles.Services;
 
 
 // account namesoaces

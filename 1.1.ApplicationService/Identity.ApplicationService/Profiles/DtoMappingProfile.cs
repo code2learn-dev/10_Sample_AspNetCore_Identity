@@ -1,4 +1,5 @@
 ﻿using Identity.ApplicationService.Claims.Entities;
+using Identity.ApplicationService.Tokens.Entities;
 using System.Security.Claims;
 
 namespace Identity.ApplicationService.Profiles
@@ -69,6 +70,11 @@ namespace Identity.ApplicationService.Profiles
 			CreateMap<DeleteClaimDtoModel, Claim>()
 				.ForMember(dto => dto.Type, opt => opt.MapFrom(src => src.ClaimType))
 				.ForMember(dto => dto.Value, opt => opt.MapFrom(src => src.ClaimValue));
+
+
+
+			// user token
+			CreateMap<CreateUserTokenDtoModel, UserTokenDtoModel>();
 		}
 	}
 }

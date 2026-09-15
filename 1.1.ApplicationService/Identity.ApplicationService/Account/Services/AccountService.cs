@@ -1,9 +1,4 @@
-﻿using Identity.ApplicationService.Roles.Services;
-using Identity.ApplicationService.Users.Services;
-using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
-
-namespace Identity.ApplicationService.Account.Services
+﻿namespace Identity.ApplicationService.Account.Services
 {
 	public class AccountService : IAccountService
 	{
@@ -25,7 +20,7 @@ namespace Identity.ApplicationService.Account.Services
             IAccountModelValidator validator,
             IAccountMessageMaker messageMaker,
             IAccountResponse accountResponse,
-            ILogger<UserService> logger, 
+            ILogger<UserService> logger,
             IHttpContextAccessor contextAccessor)
         {
             _mapper = mapper;
@@ -35,8 +30,8 @@ namespace Identity.ApplicationService.Account.Services
             _validator = validator;
             _messageMaker = messageMaker;
             _accountResponse = accountResponse;
-            _logger = logger; 
-            _contextAccessor = contextAccessor;
+            _logger = logger;
+            _contextAccessor = contextAccessor; 
         }
 
 
@@ -149,8 +144,7 @@ namespace Identity.ApplicationService.Account.Services
 			userResult.AddResult(accountProfile);
 			return userResult;
 		}
-
-
+		 
 
 		private async Task<ApplicationServiceResult<AccountDtoModel?>> SetSignInResultAsync(
 			AcademyUser user,
