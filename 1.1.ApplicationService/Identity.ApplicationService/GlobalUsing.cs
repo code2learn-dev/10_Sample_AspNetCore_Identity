@@ -16,6 +16,14 @@ global using Identity.Domain.IDentityContent;
 global using Microsoft.AspNetCore.Identity;
 global using Microsoft.EntityFrameworkCore;
 
+
+global using Microsoft.AspNetCore.Authentication.JwtBearer;
+global using Microsoft.Extensions.Options;
+global using System.IdentityModel.Tokens.Jwt;
+global using System.Security.Claims;
+global using System.Text;
+
+
 // category namespace
 global using Identity.ApplicationService.Categories.Entites;
 global using Identity.ApplicationService.Categories.Response;
@@ -43,7 +51,8 @@ global using Identity.ApplicationService.Users.Entites;
 global using Identity.ApplicationService.Users.Response;
 global using Identity.ApplicationService.Users.Validators;
 global using Identity.ApplicationService.Users.Services;
-
+global using Identity.Domain.Users;
+global using Identity.Repository.Users;
 
 // role namesapces
 global using Identity.ApplicationService.Roles.Entities;
@@ -56,3 +65,8 @@ global using Identity.ApplicationService.Roles.Services;
 global using Identity.ApplicationService.Account.Entites;
 global using Identity.ApplicationService.Account.Response;
 global using Identity.ApplicationService.Account.Validators;
+
+
+// token namespaces
+global using Identity.ApplicationService.Tokens.Entities;
+global using Microsoft.IdentityModel.Tokens;

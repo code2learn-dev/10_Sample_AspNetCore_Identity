@@ -1,4 +1,5 @@
-﻿using Identity.ApplicationService.Categories.Entites;
+﻿using _10_Identity.WebApiApp.ViewModels.Categories;
+using Identity.ApplicationService.Categories.Entites;
 
 namespace _10_Identity.WebApiApp.Common
 {

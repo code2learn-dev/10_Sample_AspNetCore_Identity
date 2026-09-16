@@ -1,14 +1,4 @@
-﻿using Identity.ApplicationService.Tokens.Entities;
-using Identity.Domain.Users;
-using Identity.Repository.Users;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims; 
-using System.Text;
-
-namespace Identity.ApplicationService.Tokens.Services
+﻿namespace Identity.ApplicationService.Tokens.Services
 {
 	public class TokenService : ITokenService
 	{

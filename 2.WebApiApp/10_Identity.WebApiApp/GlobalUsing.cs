@@ -6,6 +6,8 @@ global using AutoMapper;
 global using _10_Identity.WebApiApp.Common;
 global using Identity.ApplicationService.Profiles;
 global using Identity.ApplicationService.Utilities;
+global using Microsoft.AspNetCore.Identity;
+
 
 
 // categories namespaces
@@ -13,4 +15,9 @@ global using _10_Identity.WebApiApp.ViewModels.Categories.Categories;
 global using Identity.ApplicationService.Categories.Services;
 global using Identity.ApplicationService.Categories.Response;
 global using Identity.Repository.Categories;
+
+
+// token namespaces
+global using Identity.ApplicationService.Tokens.Entities;
+global using Identity.ApplicationService.Tokens.Services;
 

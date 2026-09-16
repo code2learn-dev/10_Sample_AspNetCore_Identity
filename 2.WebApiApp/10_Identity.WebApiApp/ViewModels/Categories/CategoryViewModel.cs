@@ -1,4 +1,4 @@
-﻿namespace _10_Identity.WebApiApp.ViewModels.Categories.Categories
+﻿namespace _10_Identity.WebApiApp.ViewModels.Categories
 {
     public class CategoryViewModel : BaseViewModel
     {

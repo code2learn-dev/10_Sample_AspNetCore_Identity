@@ -1,4 +1,6 @@
-﻿namespace _10_Identity.WebApiApp.Controllers
+﻿using _10_Identity.WebApiApp.ViewModels.Categories;
+
+namespace _10_Identity.WebApiApp.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
