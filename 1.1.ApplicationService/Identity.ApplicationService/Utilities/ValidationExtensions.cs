@@ -1,7 +1,4 @@
-﻿using Identity.ApplicationService.Roles.Services;
-using Identity.ApplicationService.Users.Services;
-
-namespace Identity.ApplicationService.Utilities
+﻿namespace Identity.ApplicationService.Utilities
 {
     public static class ValidationExtensions
     {

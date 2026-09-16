@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Tokens\Services\" />
+    <Folder Include="Tokens\Validators\" />
   </ItemGroup>
 
 </Project>
