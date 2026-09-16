@@ -1,5 +1,6 @@
 ﻿using Identity.ApplicationService.Claims.Entities;
 using Identity.ApplicationService.Tokens.Entities;
+using Identity.Domain.Users;
 using System.Security.Claims;
 
 namespace Identity.ApplicationService.Profiles
@@ -75,6 +76,7 @@ namespace Identity.ApplicationService.Profiles
 
 			// user token
 			CreateMap<CreateUserTokenDtoModel, UserTokenDtoModel>();
+			CreateMap<UserTokenDtoModel, UserToken>();
 		}
 	}
 }

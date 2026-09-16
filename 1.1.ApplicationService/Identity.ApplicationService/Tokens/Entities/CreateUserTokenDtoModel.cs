@@ -8,6 +8,8 @@ namespace Identity.ApplicationService.Tokens.Entities
 		public string Token { get; set; } = string.Empty;
 		public DateTime ExpireDate { get; set; }
 		public bool IsActive { get; set; } = true;
-        public TokenValidatedContext? Context { get; set; }
+        public TokenValidatedContext? Context { get; set; } 
+		public Dictionary<string, string>? JwtSections { get; set; }
+        public JwtSectionConfiguration? JwtConfiguration { get; set; }
     }
 }
