@@ -23,7 +23,7 @@
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserTokenDtoModel))]
         public async Task<IActionResult> Get()
         {
-
+            
             return Ok();
         }
     }

@@ -1,4 +1,5 @@
 ﻿using _10_Identity.WebApiApp.Dependencies.Categories;
+using _10_Identity.WebApiApp.Dependencies.Identites;
 using _10_Identity.WebApiApp.Dependencies.Tokens;
 using Identity.ApplicationService.Tokens.Entities;
 using Identity.ApplicationService.Tokens.Services;
@@ -67,6 +68,7 @@ namespace _10_Identity.WebApiApp.Dependencies
 				 };
 			 });
 
+			// register application services
 			builder.Services
 				// add common services
 				.RegisterPublicServices()
@@ -74,6 +76,12 @@ namespace _10_Identity.WebApiApp.Dependencies
 				.ConfigureTokenServices()
 				// add categories services
 				.RegisterCategoriesService();
+
+
+			// configure identity services
+			builder.Services.ConfigureIdentityServices()
+							.ConfigureIdentityOptions()
+							.ConfigureIdentityTokenProvider();
 
 			return builder;
 		}

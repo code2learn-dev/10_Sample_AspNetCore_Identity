@@ -27,8 +27,4 @@
     <ProjectReference Include="..\..\1.1.ApplicationService\Identity.ApplicationService\Identity.ApplicationService.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Dependencies\Identites\" />
-  </ItemGroup>
-
 </Project>
