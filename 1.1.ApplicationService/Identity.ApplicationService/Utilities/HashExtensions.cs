@@ -9,7 +9,7 @@ namespace Identity.ApplicationService.Utilities
         {
             if (string.IsNullOrEmpty(input)) return string.Empty;
 
-            var hashAlgorithm = SHA3_256.Create();
+            var hashAlgorithm = SHA256.Create();
             byte[] hashBytes = hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(input));
             return Convert.ToBase64String(hashBytes);
         }

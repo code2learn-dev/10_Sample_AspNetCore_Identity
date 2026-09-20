@@ -6,26 +6,31 @@
 		private readonly IUserRepository _userRepository;
 		private readonly IMapper _mapper;
 		private readonly ILogger<TokenService> _logger;
+		private readonly IAccountModelValidator _validator;
 		private JwtSectionConfiguration _jwt;
 
-		public TokenService(
-			UserManager<AcademyUser> userManager,
-			IUserRepository userRepository,
-			IMapper mapper,
-			ILogger<TokenService> logger,
-			IOptionsMonitor<JwtSectionConfiguration> monitor)
-		{
-			_userManager = userManager;
-			_userRepository = userRepository;
-			_mapper = mapper;
-			_logger = logger;
-			monitor.OnChange(update =>
-			{
-				_jwt = update;
-			});
-		}
+        public TokenService(
+            UserManager<AcademyUser> userManager,
+            IUserRepository userRepository,
+            IMapper mapper,
+            ILogger<TokenService> logger,
+            IOptionsMonitor<JwtSectionConfiguration> monitor,
+            IAccountModelValidator validator)
+        {
+            _userManager = userManager;
+            _userRepository = userRepository;
+            _mapper = mapper;
+            _logger = logger;
+            _validator = validator;
 
-		public async Task<ApplicationServiceResult<bool>> ValidateToken(TokenValidatedContext? context)
+            _jwt = monitor.CurrentValue;
+            monitor.OnChange(update =>
+            {
+                _jwt = update;
+            });
+        }
+
+        public async Task<ApplicationServiceResult<bool>> ValidateToken(TokenValidatedContext? context)
 		{
 			ApplicationServiceResult<bool> tokenResult = new();
 			bool isValid = false;
@@ -61,11 +66,11 @@
 			return tokenResult;
 		}
 
-		public async Task<ApplicationServiceResult<UserTokenDtoModel?>> GenerateTokenAsync(UserTokenDtoModel model)
+		public async Task<ApplicationServiceResult<UserTokenDtoModel?>> GenerateTokenAsync(string userId)
 		{
 			ApplicationServiceResult<UserTokenDtoModel?> tokenResult = new();
 
-			AcademyUser? user = await _userManager.FindByIdAsync(model.UserId);
+			AcademyUser? user = await _userManager.FindByIdAsync(userId);
 			if (user is null ||
 				string.IsNullOrEmpty(user.UserName))
 			{
@@ -79,7 +84,7 @@
 				new(ClaimTypes.NameIdentifier, user.Id),
 				new(ClaimTypes.Name, user.UserName)
 			};
-			 
+
 			if (string.IsNullOrEmpty(_jwt.Issuer) ||
 				string.IsNullOrEmpty(_jwt.Audience) ||
 				string.IsNullOrEmpty(_jwt.Key))
@@ -101,20 +106,81 @@
 				claims: claims,
 				signingCredentials: credentials);
 
-			var token = new JwtSecurityTokenHandler().WriteToken(jwtToken);
-			var refreshToken = Guid.NewGuid().ToString();
+			var accessToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);
+
+			// create refresh token
+			var refreshTokenPlain = Guid.NewGuid().ToString("N") + Guid.NewGuid().ToString("N");
+			var refreshTokenHash = refreshTokenPlain.ConvertToHash();
 			var expireRefreshToken = DateTime.Now.AddDays(21);
 
-			model.RefreshToken = refreshToken;
-			model.ExpireRefreshToken = expireRefreshToken;
-			UserToken? userToken = await _userRepository.AddUserToken(_mapper.Map<UserToken>(userTokenDto));
-			if (userToken is null) 
-				tokenResult.AddError("خطا در ایجاد و ذخیره توکن"); 
-			else 
-				tokenResult.AddResult(model); 
+
+			// store token
+			UserToken token = new()
+			{
+				UserId = user.Id,
+				RefreshToken = refreshTokenHash,
+				ExpireRefreshToken = expireRefreshToken,
+				DeviceName = "Desktop-Window 10-DKPL-234",
+				IsActive = true
+			};
+			UserToken? userToken = await _userRepository.AddUserToken(token);
+			if (userToken is not null)
+			{
+				UserTokenDtoModel userTOkenDto = new()
+				{
+					UserId = user.Id,
+					Token = accessToken,
+					ExpireDate = expireToken,
+					RefreshToken = refreshTokenPlain,
+					ExpireRefreshToken = expireRefreshToken,
+					IsActive = true
+				};
+				tokenResult.AddResult(userTOkenDto);
+			}
+			else
+				tokenResult.AddError("خطا در ایجاد و ذخیره توکن");
 
 			return tokenResult;
 		}
 
+		public async Task<ApplicationServiceResult<AccountDtoModel?>>
+							LoginAccountToGenerateTokenAsync(
+							LoginDtoModel model,
+							AccountRole accountRole = AccountRole.member)
+		{
+			ApplicationServiceResult<AccountDtoModel?> loginResult = new();
+
+			ValidationResult validationResult = await _validator.ValidateModelAsync(model);
+			if (!validationResult.IsValid)
+			{
+				List<string> errors = validationResult.GetValidationResultErrors();
+				loginResult.AddErrorsList(errors.ToArray());
+				return loginResult;
+			}
+
+			AcademyUser? user = await _userManager.FindByNameAsync(model.UserName);
+			if (user is null)
+			{ 
+				loginResult.AddError("نام کاربری و رمز عبور اشتباه است");
+				return loginResult;
+			}
+
+			if (!await _userManager.CheckPasswordAsync(user, model.Password))
+			{ 
+				loginResult.AddError("نام کاربری و رمز عبور اشتباه است");
+				return loginResult;
+			}
+
+			if (await _userManager.IsInRoleAsync(user, accountRole.ToString()))
+			{
+				loginResult.AddResult(_mapper.Map<AccountDtoModel>(user));
+			}
+			else
+			{ 
+				loginResult.AddError("کاربری یافت نشد");
+			}
+
+			return loginResult;
+		}
 	}
 }

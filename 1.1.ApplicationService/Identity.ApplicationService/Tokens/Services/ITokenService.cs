@@ -1,12 +1,10 @@
-﻿using Identity.ApplicationService.Tokens.Entities;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-
+﻿
 namespace Identity.ApplicationService.Tokens.Services
 {
     public interface ITokenService
     {
-        Task<ApplicationServiceResult<UserTokenDtoModel?>> GenerateTokenAsync(UserTokenDtoModel? model);
-
+        Task<ApplicationServiceResult<UserTokenDtoModel?>> GenerateTokenAsync(string userId);
+        Task<ApplicationServiceResult<AccountDtoModel?>> LoginAccountToGenerateTokenAsync(LoginDtoModel model, AccountRole accountRole = AccountRole.member);
         Task<ApplicationServiceResult<bool>> ValidateToken(TokenValidatedContext? context);
     }
 }
