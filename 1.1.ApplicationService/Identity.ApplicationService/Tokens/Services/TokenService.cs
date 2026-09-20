@@ -182,5 +182,109 @@
 
 			return loginResult;
 		}
-	}
+
+        public async Task<ApplicationServiceResult<UserTokenDtoModel?>> RefreshTokenAsync(RefreshTokenDtoModel model)
+        {
+			var tokenResult = new ApplicationServiceResult<UserTokenDtoModel?>();
+
+			if(string.IsNullOrWhiteSpace(model.RefreshToken) ||
+				string.IsNullOrWhiteSpace(model.AccessToken))
+			{
+				tokenResult.AddError("توکنی یافت نشد");
+				return tokenResult;
+			}
+
+			// 1. find refresh token
+			var hashedToken = model.RefreshToken.ConvertToHash();
+            UserToken? storedRefreshToken = await _userRepository.FindUserTokenByHashedTokenAsync(hashedToken);
+			if(storedRefreshToken is null)
+			{
+				_logger.LogError("Refresh token not found");
+				tokenResult.AddError("توکنی یافت نشد");
+				return tokenResult;
+			}
+
+			// 2. check is it still active and not expired
+			if(!storedRefreshToken.IsActive && storedRefreshToken.ExpireRefreshToken < DateTime.UtcNow)
+			{
+				_logger.LogError("Refresh token is refused");
+				tokenResult.AddError("کاربری یافت نشد");
+				return tokenResult;
+			}
+
+			// 3. check token belongs to the current user
+			var handler = new JwtSecurityTokenHandler();
+			if(handler.CanReadToken(model.AccessToken))
+			{
+				var jwtToken = handler.ReadJwtToken(model.AccessToken);
+				var userId = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+				if(userId != storedRefreshToken.UserId)
+				{
+					_logger.LogError("Access token mismatch to the current user");
+					tokenResult.AddError("کاربری یافت نشد");
+					return tokenResult;
+				}
+			}
+
+
+			// 4. Roration: Deactivate the old refresh token
+			storedRefreshToken.IsActive = false;
+            UserToken? updatedToken = await _userRepository.UpdateUserTokenAsync(storedRefreshToken);
+			if(updatedToken is null)
+			{
+				_logger.LogError("Update refresh token is failed");
+				tokenResult.AddError("کاربری یافت نشد");
+				return tokenResult;
+			}
+
+
+            // 5. generate new pair tokens
+            var newTokenResult = await GenerateTokenAsync(storedRefreshToken.UserId);
+			if (!newTokenResult.IsSuccess && newTokenResult.Result is null)
+			{
+				_logger.LogError("Generate new token is failed");
+				tokenResult.AddErrorsList(newTokenResult.Errors.ToArray());
+			}
+			else
+				tokenResult.AddResult(newTokenResult.Result);
+			
+			return tokenResult;
+        }
+
+        public async Task<ApplicationServiceResult<bool>> RevokeRefreshToken(string refreshToken)
+        {
+			var tokenResult = new ApplicationServiceResult<bool>();
+
+			if(string.IsNullOrWhiteSpace(refreshToken))
+			{
+				tokenResult.AddError("توکنی یافت نشد");
+				return tokenResult;
+			}
+
+			// 1. find user token
+			var hashedRefreshToken = refreshToken.ConvertToHash();
+            UserToken? storedRefreshToken = await _userRepository.FindUserTokenByHashedTokenAsync(hashedRefreshToken);
+			if(storedRefreshToken is null)
+			{
+				_logger.LogError("User token not found");
+				tokenResult.AddError("کاربری یافت نشد");
+				return tokenResult;
+			}
+
+
+			// 2. diactive stored refresh token
+			storedRefreshToken.IsActive = false;
+            UserToken? updatedToken = await _userRepository.UpdateUserTokenAsync(storedRefreshToken);
+			if(updatedToken is null)
+			{
+				_logger.LogError("update refresh token has been failed");
+				tokenResult.AddError("کاربری یافت نشد");
+				return tokenResult;
+			}
+
+			tokenResult.AddResult(true);
+			return tokenResult;
+        }
+    }
 }

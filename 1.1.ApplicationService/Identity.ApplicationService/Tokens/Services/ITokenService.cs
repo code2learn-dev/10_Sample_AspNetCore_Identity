@@ -12,7 +12,7 @@ namespace Identity.ApplicationService.Tokens.Services
         
         Task<ApplicationServiceResult<bool>> ValidateToken(TokenValidatedContext? context);
 
-        Task<ApplicationServiceResult<RefreshTokenDtoModel?>> RefreshTokenAsync(RefreshTokenDtoModel model);
+        Task<ApplicationServiceResult<UserTokenDtoModel?>> RefreshTokenAsync(RefreshTokenDtoModel model);
 
         Task<ApplicationServiceResult<bool>> RevokeRefreshToken(string refreshToken);
     }
