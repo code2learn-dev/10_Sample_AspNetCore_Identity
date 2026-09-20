@@ -22,5 +22,24 @@ namespace Identity.Repository.Users
 			int addedRows = await _context.SaveChangesAsync();
 			return addedRows > 0 ? userToken : default;
 		}
-	}
+
+        public async Task<bool> RevokeAllUserTokensAsync(string userId)
+        {
+            IQueryable<UserToken> userTokens = _userToken.Where(a => a.UserId == userId);
+			foreach (var userToken in userTokens)
+			{
+				userToken.IsActive = false;
+				_userToken.Update(userToken);
+			}
+
+			return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<UserToken?> UpdateUserTokenAsync(UserToken userToken)
+        {
+			_userToken.Update(userToken);
+			int updatedTokens = await _context.SaveChangesAsync();
+			return updatedTokens > 0 ? userToken : default;
+        }
+    }
 }
