@@ -96,7 +96,7 @@
 
 			var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwt.Key));
 			var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-			var expireToken = DateTime.Now.AddDays(7);
+			var expireToken = DateTime.Now.AddSeconds(35);
 
 			var jwtToken = new JwtSecurityToken(
 				issuer: _jwt.Issuer,
@@ -111,7 +111,7 @@
 			// create refresh token
 			var refreshTokenPlain = Guid.NewGuid().ToString("N") + Guid.NewGuid().ToString("N");
 			var refreshTokenHash = refreshTokenPlain.ConvertToHash();
-			var expireRefreshToken = DateTime.Now.AddDays(21);
+			var expireRefreshToken = DateTime.Now.AddMinutes(2);
 
 
 			// store token
@@ -205,7 +205,7 @@
 			}
 
 			// 2. check is it still active and not expired
-			if(!storedRefreshToken.IsActive && storedRefreshToken.ExpireRefreshToken < DateTime.UtcNow)
+			if(storedRefreshToken.IsActive && storedRefreshToken.ExpireRefreshToken <= DateTime.Now)
 			{
 				_logger.LogError("Refresh token is refused");
 				tokenResult.AddError("کاربری یافت نشد");
@@ -228,7 +228,7 @@
 			}
 
 
-			// 4. Roration: Deactivate the old refresh token
+			// 4. Rotation: Deactivate the old refresh token
 			storedRefreshToken.IsActive = false;
             UserToken? updatedToken = await _userRepository.UpdateUserTokenAsync(storedRefreshToken);
 			if(updatedToken is null)
@@ -252,7 +252,7 @@
 			return tokenResult;
         }
 
-        public async Task<ApplicationServiceResult<bool>> RevokeRefreshToken(string refreshToken)
+        public async Task<ApplicationServiceResult<bool>> RevokeRefreshTokenAsync(string refreshToken)
         {
 			var tokenResult = new ApplicationServiceResult<bool>();
 

@@ -14,6 +14,6 @@ namespace Identity.ApplicationService.Tokens.Services
 
         Task<ApplicationServiceResult<UserTokenDtoModel?>> RefreshTokenAsync(RefreshTokenDtoModel model);
 
-        Task<ApplicationServiceResult<bool>> RevokeRefreshToken(string refreshToken);
+        Task<ApplicationServiceResult<bool>> RevokeRefreshTokenAsync(string refreshToken);
     }
 }
