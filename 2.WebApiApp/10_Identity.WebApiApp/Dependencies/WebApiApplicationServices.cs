@@ -71,8 +71,7 @@ namespace _10_Identity.WebApiApp.Dependencies
 				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 			})
 			 .AddJwtBearer(bearerOptions =>
-			 {
-				 bearerOptions.RequireHttpsMetadata = false;
+			 { 
 				 bearerOptions.SaveToken = true;
 				 bearerOptions.TokenValidationParameters = new TokenValidationParameters()
 				 {
@@ -90,13 +89,7 @@ namespace _10_Identity.WebApiApp.Dependencies
 				 };
 
 				 bearerOptions.Events = new JwtBearerEvents()
-				 {
-					 //OnTokenValidated = e =>
-					 //{
-					 // Console.WriteLine("================ token received ==============");
-					 // return Task.CompletedTask;
-					 //},
-
+				 { 
 					 OnTokenValidated = async e =>
 					 {
 						 var tokenService = e.HttpContext.RequestServices.GetRequiredService<ITokenService>();
@@ -148,15 +141,7 @@ namespace _10_Identity.WebApiApp.Dependencies
 
 		public static WebApplication ConfigureMiddleware(this WebApplicationBuilder builder)
 		{
-			var app = builder.Build();
-			 
-			app.Use(async (ctx, next) =>
-			{
-				Console.WriteLine($">>> REQUEST {ctx.Request.Method} {ctx.Request.Path}");
-				Console.WriteLine($">>> Authorization header: {ctx.Request.Headers["Authorization"].ToString()}");
-				await next();
-				Console.WriteLine($">>> RESPONSE STATUS: {ctx.Response.StatusCode}");
-			});
+			var app = builder.Build(); 
 
 			if (app.Environment.IsDevelopment())
 			{
