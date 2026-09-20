@@ -5,38 +5,38 @@
 		private readonly IMapper _mapper;
 		private readonly UserManager<AcademyUser> _userManager;
 		private readonly SignInManager<AcademyUser> _signInManager;
-		private readonly RoleManager<AcademyRole> _roleManager;	
+		private readonly RoleManager<AcademyRole> _roleManager;
 		private readonly IHttpContextAccessor _contextAccessor;
 		private readonly IAccountModelValidator _validator;
 		private readonly IAccountMessageMaker _messageMaker;
 		private readonly IAccountResponse _accountResponse;
-		private readonly ILogger<UserService> _logger; 
+		private readonly ILogger<UserService> _logger;
 
-        public AccountService(
-            IMapper mapper,
-            SignInManager<AcademyUser> signInManager,
-            UserManager<AcademyUser> userManager,
-            RoleManager<AcademyRole> roleManager,
-            IAccountModelValidator validator,
-            IAccountMessageMaker messageMaker,
-            IAccountResponse accountResponse,
-            ILogger<UserService> logger,
-            IHttpContextAccessor contextAccessor)
-        {
-            _mapper = mapper;
-            _signInManager = signInManager;
-            _userManager = userManager;
-            _roleManager = roleManager;
-            _validator = validator;
-            _messageMaker = messageMaker;
-            _accountResponse = accountResponse;
-            _logger = logger;
-            _contextAccessor = contextAccessor; 
-        }
+		public AccountService(
+			IMapper mapper,
+			SignInManager<AcademyUser> signInManager,
+			UserManager<AcademyUser> userManager,
+			RoleManager<AcademyRole> roleManager,
+			IAccountModelValidator validator,
+			IAccountMessageMaker messageMaker,
+			IAccountResponse accountResponse,
+			ILogger<UserService> logger,
+			IHttpContextAccessor contextAccessor)
+		{
+			_mapper = mapper;
+			_signInManager = signInManager;
+			_userManager = userManager;
+			_roleManager = roleManager;
+			_validator = validator;
+			_messageMaker = messageMaker;
+			_accountResponse = accountResponse;
+			_logger = logger;
+			_contextAccessor = contextAccessor;
+		}
 
 
 
-        public async Task<ApplicationServiceResult<AccountDtoModel?>> LoginAccountAsync(LoginDtoModel model)
+		public async Task<ApplicationServiceResult<AccountDtoModel?>> LoginAccountAsync(LoginDtoModel model)
 		{
 			(ApplicationServiceResult<AccountDtoModel?> accountResult, AcademyUser? user) = await AccountSignInResult(model);
 			if (!accountResult.IsSuccess || user is null) return accountResult;
@@ -129,8 +129,8 @@
 				userResult.AddError("کاربری یافت نشد");
 				return userResult;
 			}
-            AcademyUser? user = await _userManager.GetUserAsync(currentUser);
-			if(user is null)
+			AcademyUser? user = await _userManager.GetUserAsync(currentUser);
+			if (user is null)
 			{
 				userResult.AddError("کاربری یافت نشد");
 				return userResult;
@@ -138,13 +138,57 @@
 
 			var accountProfile = _mapper.Map<AccountProfileDtoModel>(user);
 			string? roleName = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
-            AcademyRole? role = await _roleManager.FindByNameAsync(roleName ?? "");
+			AcademyRole? role = await _roleManager.FindByNameAsync(roleName ?? "");
 			accountProfile.RoleId = role?.Id ?? string.Empty;
-			
+
 			userResult.AddResult(accountProfile);
 			return userResult;
 		}
-		 
+
+
+		public async Task<ApplicationServiceResult<AccountDtoModel?>> 
+			LoginAccountToGenerateTokenAsync(
+			LoginDtoModel model, 
+			AccountRole accountRole = AccountRole.member)
+		{
+			ApplicationServiceResult<AccountDtoModel?> loginResult = new();
+
+			ValidationResult validationResult = await _validator.ValidateModelAsync(model);
+			if (!validationResult.IsValid)
+			{
+				List<string> errors = validationResult.GetValidationResultErrors();
+				loginResult.AddErrorsList(errors.ToArray());
+				return loginResult;
+			}
+
+			AcademyUser? user = await _userManager.FindByNameAsync(model.UserName);
+			if (user is null)
+			{
+				_messageMaker.SetMessage(CrudAccount.login, AccountStatus.notfound);
+				loginResult.AddError(_messageMaker.Message);
+				return loginResult;
+			}
+
+			if (!await _userManager.CheckPasswordAsync(user, model.Password))
+			{
+				_messageMaker.SetMessage(CrudAccount.login, AccountStatus.notfound);
+				loginResult.AddError(_messageMaker.Message);
+				return loginResult;
+			}
+
+			if (await _userManager.IsInRoleAsync(user, accountRole.ToString()))
+			{
+				loginResult.AddResult(_mapper.Map<AccountDtoModel>(user));
+			}
+			else
+			{
+				_messageMaker.SetMessage(CrudAccount.login, AccountStatus.notfound);
+				loginResult.AddError(_messageMaker.Message);
+			}
+
+			return loginResult;
+		}
+
 
 		private async Task<ApplicationServiceResult<AccountDtoModel?>> SetSignInResultAsync(
 			AcademyUser user,
@@ -153,14 +197,14 @@
 		{
 			var accountResult = _accountResponse.GetAccountResult();
 
-			if(!await _userManager.CheckPasswordAsync(user, model.Password))
+			if (!await _userManager.CheckPasswordAsync(user, model.Password))
 			{
 				_messageMaker.SetMessage(CrudAccount.login, AccountStatus.notfound);
 				accountResult.AddError(_messageMaker.Message);
 				return accountResult;
 			}
 
-			if(!await _userManager.IsInRoleAsync(user, role.ToString()))
+			if (!await _userManager.IsInRoleAsync(user, role.ToString()))
 			{
 				_messageMaker.SetMessage(CrudAccount.login, AccountStatus.notfound);
 				accountResult.AddError(_messageMaker.Message);
