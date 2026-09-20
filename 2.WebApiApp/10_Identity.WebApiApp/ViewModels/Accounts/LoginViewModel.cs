@@ -11,5 +11,7 @@ namespace _10_Identity.WebApiApp.ViewModels.Accounts
         [Display(Name = "رمز عبور")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "رمز عبور را وارد کنید")]
         public string Password { get; set; } = string.Empty;
+
+        public bool IsPersistent { get; set; }
     }
 }
