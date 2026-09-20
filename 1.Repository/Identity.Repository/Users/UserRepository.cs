@@ -23,6 +23,12 @@ namespace Identity.Repository.Users
 			return addedRows > 0 ? userToken : default;
 		}
 
+        public async Task<UserToken?> FindUserTokenByHashedTokenAsync(string refreshToken)
+        {
+            UserToken? userToken = await _userToken.FirstOrDefaultAsync(a => a.RefreshToken == refreshToken);
+			return userToken;
+        }
+
         public async Task<bool> RevokeAllUserTokensAsync(string userId)
         {
             IQueryable<UserToken> userTokens = _userToken.Where(a => a.UserId == userId);

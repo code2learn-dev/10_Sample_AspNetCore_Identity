@@ -9,5 +9,7 @@ namespace Identity.Repository.Users
 		Task<UserToken?> UpdateUserTokenAsync(UserToken userToken);
 
 		Task<bool> RevokeAllUserTokensAsync(string userId);
+
+		Task<UserToken?> FindUserTokenByHashedTokenAsync(string refreshToken);
 	}
 }
