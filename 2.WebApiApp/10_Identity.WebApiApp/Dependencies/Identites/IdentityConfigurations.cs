@@ -4,7 +4,8 @@
     {
         public static IServiceCollection ConfigureIdentityServices(this IServiceCollection services)
         {
-            services.AddIdentity<AcademyUser, AcademyUser>()
+            services.AddIdentityCore<AcademyUser>()
+                .AddRoles<AcademyRole>()
                 .AddEntityFrameworkStores<AcademyDbContext>()
                 .AddDefaultTokenProviders()
                 .AddPasswordValidator<AcademyPasswordValidation>()
@@ -40,6 +41,8 @@
             {
                 options.TokenLifespan = TimeSpan.FromDays(7);
             });
+
+            return services;
         }
     }
 }
