@@ -1,4 +1,6 @@
-﻿using _10_Identity.WebApiApp.ViewModels.Categories;
+﻿using _10_Identity.WebApiApp.ViewModels.Accounts;
+using _10_Identity.WebApiApp.ViewModels.Categories;
+using Identity.ApplicationService.Account.Entites;
 using Identity.ApplicationService.Categories.Entites;
 
 namespace _10_Identity.WebApiApp.Common
@@ -8,7 +10,11 @@ namespace _10_Identity.WebApiApp.Common
         public MappingProfile()
         {
             CreateMap<CategoryDto, CategoryViewModel>();
-            CreateMap<CrudCategoryViewModel, CrudCategoryDto>(); 
+            CreateMap<CrudCategoryViewModel, CrudCategoryDto>();
+
+
+            // account mappings
+            CreateMap<LoginViewModel, LoginDtoModel>();
         }
     }
 }
