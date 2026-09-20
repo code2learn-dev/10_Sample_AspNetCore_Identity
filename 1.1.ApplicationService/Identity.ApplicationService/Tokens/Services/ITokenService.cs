@@ -4,7 +4,16 @@ namespace Identity.ApplicationService.Tokens.Services
     public interface ITokenService
     {
         Task<ApplicationServiceResult<UserTokenDtoModel?>> GenerateTokenAsync(string userId);
-        Task<ApplicationServiceResult<AccountDtoModel?>> LoginAccountToGenerateTokenAsync(LoginDtoModel model, AccountRole accountRole = AccountRole.member);
+       
+        Task<ApplicationServiceResult<AccountDtoModel?>> 
+            LoginAccountToGenerateTokenAsync(
+            LoginDtoModel model, 
+            AccountRole accountRole = AccountRole.member);
+        
         Task<ApplicationServiceResult<bool>> ValidateToken(TokenValidatedContext? context);
+
+        Task<ApplicationServiceResult<RefreshTokenDtoModel?>> RefreshTokenAsync(RefreshTokenDtoModel model);
+
+        Task<ApplicationServiceResult<bool>> RevokeRefreshToken(string refreshToken);
     }
 }
